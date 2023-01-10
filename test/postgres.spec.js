@@ -155,15 +155,17 @@ describe('Postgres', () => {
         ]
     },
     {
-        title: 'Window Fns + RANKING',
+        title: 'Window Fns + ROWS unbounded preceding + preceding',
         sql: [
           `SELECT
-            ROW_NUMBER() OVER (
+            first_name,
+            SUM(user_age) OVER (
                 PARTITION BY user_city
-                ORDER BY created_at
+                ORDER BY created_at, user_id ASC
+                ROWS BETWEEN UNbounded preceding AND 1 preceding
             ) AS age_window
           FROM roster`,
-          'SELECT ROW_NUMBER() OVER (PARTITION BY "user_city" ORDER BY "created_at" ASC) AS "age_window" FROM "roster"'
+          'SELECT "first_name", SUM("user_age") OVER (PARTITION BY "user_city" ORDER BY "created_at" ASC, "user_id" ASC ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS "age_window" FROM "roster"'
         ]
     },
     {
