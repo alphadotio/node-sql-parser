@@ -2,7 +2,7 @@
   "name": "node-sql-parser",
   "version": "4.6.4",
   "description": "simple node sql parser",
-  "main": "index.js",
+  "main": "output/prod/index.js",
   "types": "types.d.ts",
   "scripts": {
     "start": "webpack --config webpack.config.js",
@@ -13,11 +13,12 @@
     "coverLocal": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test",
     "cover:run": "cross-env NODE_ENV=coverage nyc --reporter=text-lcov npm run test",
     "cover": "npm run cover:run && nyc report --reporter=text-lcov | coveralls",
-    "release": "npm run build && npm publish output/prod"
+    "release": "npm run build && npm publish output/prod",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/taozhi8833998/node-sql-parser.git"
+    "url": "git+https://github.com/alphadotio/node-sql-parser.git"
   },
   "pre-commit": "coverLocal",
   "keywords": [

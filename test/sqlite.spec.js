@@ -95,4 +95,14 @@ describe('sqlite', () => {
     const sql = "SELECT name, 'doesn''t smoke' FROM people WHERE name = 'John';"
     expect(getParsedSql(sql)).to.be.equal("SELECT `name`, 'doesn''t smoke' FROM `people` WHERE `name` = 'John'")
   })
+
+  it('should support window functions', () => {
+    const sql = "SELECT MAX(amount) OVER (ORDER BY date ASC ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS max_amount FROM sales;"
+    expect(getParsedSql(sql)).to.be.equal("SELECT MAX(`amount`) OVER (ORDER BY `date` ASC ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS `max_amount` FROM `sales`")
+  })
+
+  it('should support window functions with multiple preceding', () => {
+    const sql = "SELECT MAX(amount) OVER (ORDER BY date ASC ROWS BETWEEN 2 PRECEDING AND 1 preceding) AS max_amount FROM sales;"
+    expect(getParsedSql(sql)).to.be.equal("SELECT MAX(`amount`) OVER (ORDER BY `date` ASC ROWS BETWEEN 2 PRECEDING AND 1 PRECEDING) AS `max_amount` FROM `sales`")
+  })
 })
